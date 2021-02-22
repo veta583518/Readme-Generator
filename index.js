@@ -113,7 +113,7 @@ const promptProject = (readmeData) => {
         "Creative Commons Zero v1.0 Universal",
         "Eclipse Public License 2.0",
         "GNU Affero General Public License v3.0",
-        "GNU Genral Public License v2.0",
+        "GNU General Public License v2.0",
         "GNU Lesser General Public License v2.1",
         "Mozilla Public License 2.0",
         "The Unlicense",
@@ -147,7 +147,7 @@ const promptProject = (readmeData) => {
       type: "input",
       name: "test",
       message:
-        "List test you have written for your appliation. Also provide examples on how to run them.",
+        "List test you have written for your application. Also provide examples on how to run them.",
       when: ({ confirmTest }) => {
         if (confirmTest) {
           return true;
