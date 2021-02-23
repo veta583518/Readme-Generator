@@ -1,8 +1,9 @@
 const inquirer = require("inquirer");
-const { writeFile, copyFile } = require("./utils/generate-site.js");
-const generatePage = require("/src/page-template");
+const fs = require("fs");
+const { resolve } = require("path");
+const generateMarkdown = require("./utils/generateMarkdown.js");
 
-// prompts for questions section
+// questions 
 
 const promptQuestions = () => {
   return inquirer.prompt([
@@ -10,8 +11,8 @@ const promptQuestions = () => {
       type: "input",
       name: "github",
       message: "What is your GitHub Username? (Required)",
-      validate: (nameInput) => {
-        if (nameInput) {
+      validate: (githubInput) => {
+        if (githubInput) {
           return true;
         } else {
           console.log("Please enter your GitHub Username!");
@@ -19,12 +20,13 @@ const promptQuestions = () => {
         }
       },
     },
+
     {
       type: "input",
       name: "email",
       message: "What is your email address? (Required)",
-      validate: (nameInput) => {
-        if (nameInput) {
+      validate: (emailInput) => {
+        if (emailInput) {
           return true;
         } else {
           console.log("Please enter your Email Address!");
@@ -32,25 +34,13 @@ const promptQuestions = () => {
         }
       },
     },
-  ]);
-};
-const promptProject = (readmeData) => {
-  console.log(`
-  ===================
-  Add Project Details
-  ===================
-  `);
-  // If there is no "questions" array property, create one
-  if (!readmeData.projects) {
-    readmeData.projects = [];
-  }
-  return inquirer.prompt([
+
     {
       type: "input",
       name: "title",
       message: "What is the title of your project? (Required)",
-      validate: (nameInput) => {
-        if (nameInput) {
+      validate: (titleInput) => {
+        if (titleInput) {
           return true;
         } else {
           console.log("Please enter the title of your Project!");
@@ -58,12 +48,13 @@ const promptProject = (readmeData) => {
         }
       },
     },
+
     {
       type: "input",
       name: "description",
       message: "Enter a description of your project (Required)",
-      validate: (nameInput) => {
-        if (nameInput) {
+      validate: (descriptionInput) => {
+        if (descriptionInput) {
           return true;
         } else {
           console.log("Please enter a description of your project!");
@@ -71,13 +62,14 @@ const promptProject = (readmeData) => {
         }
       },
     },
+
     {
       type: "input",
       name: "installation",
       message:
         "What are the steps required to install your project? (Required)",
-      validate: (nameInput) => {
-        if (nameInput) {
+      validate: (installationInput) => {
+        if (installationInput) {
           return true;
         } else {
           console.log("Please tell us how to install your project!");
@@ -85,12 +77,13 @@ const promptProject = (readmeData) => {
         }
       },
     },
+
     {
       type: "input",
       name: "usage",
       message: "Provide instructions and examples for use. (Required)",
-      validate: (nameInput) => {
-        if (nameInput) {
+      validate: (usageInput) => {
+        if (usageInput) {
           return true;
         } else {
           console.log("Please provide instructions for use!");
@@ -98,6 +91,28 @@ const promptProject = (readmeData) => {
         }
       },
     },
+
+    {
+      type: "confirm",
+      name: "confirmCredit",
+      message: 'Do you wish to list any contributors in the "Credits" section?',
+      default: true,
+    },
+
+    {
+      type: "input",
+      name: "credit",
+      message:
+        'List the GitHub usernames of all contributors, seperating by ","',
+      when: ({ confirmCredit }) => {
+        if (confirmCredit) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+    },
+
     {
       type: "list",
       name: "license",
@@ -119,12 +134,14 @@ const promptProject = (readmeData) => {
         "The Unlicense",
       ],
     },
+
     {
       type: "confirm",
       name: "confirmContribute",
       message: "Are you allowing contributions at this time?",
       default: true,
     },
+
     {
       type: "input",
       name: "contribute",
@@ -137,12 +154,14 @@ const promptProject = (readmeData) => {
         }
       },
     },
+
     {
       type: "confirm",
       name: "confirmTest",
       message: "Have you written any test for your application?",
       default: true,
     },
+
     {
       type: "input",
       name: "test",
@@ -158,3 +177,28 @@ const promptProject = (readmeData) => {
     },
   ]);
 };
+
+// write readme file
+const writeToFile = (fileName, data) => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(fileName, generateMarkdown(data), (err) => {
+      // if there is an error, reject the Promise and send the error to the Promise's `.catch()` method
+      if (err) {
+        reject(err);
+        // return out of the function here to make sure the Promise doesn't accidentally execute the resolve() function as well
+        return;
+      }
+      // if everything went well, resolve the Promise and send the successful data to the `.then()` method
+      resolve({
+        ok: true,
+        message: "Readme created!",
+      });
+    });
+  });
+};
+
+const init = () => {
+  return inquirer.prompt(promptQuestions);
+};
+// initialize program
+init().then((answers) => writeToFile("./NEWREADME.md", answers));
