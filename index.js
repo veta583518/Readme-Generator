@@ -201,4 +201,4 @@ const init = () => {
   return inquirer.prompt(promptQuestions);
 };
 // initialize program
-init().then((answers) => writeToFile("./NEWREADME.md", answers));
+init().then((answers) => writeToFile("./README-GEN.md", answers));
