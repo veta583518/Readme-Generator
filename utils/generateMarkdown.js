@@ -1,4 +1,4 @@
-// switch to determine which badge icon to display at top of document
+// switch to determine which badge icon and link to display at top of document based on user selection in prompt
 
 const generateBadge = (license) => {
   let badge = "";
@@ -56,6 +56,7 @@ const generateBadge = (license) => {
       badge =
         "[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-darkgreen)](https://opensource.org/licenses/unlicense)";
       break;
+    // If there is no license, return an empty string
     default:
       badge = "";
       break;
@@ -63,6 +64,7 @@ const generateBadge = (license) => {
   return badge;
 };
 
+// Create a function to generate markdown for README
 const generateMarkdown = (data) => {
   return `# ${data.title} ${generateBadge(license)}
 
@@ -115,7 +117,7 @@ const generateMarkdown = (data) => {
   ${data.contribute}
 
   [Back to Contents](#table-of-contents)
-  
+
 
   ## Tests
   
@@ -132,4 +134,5 @@ const generateMarkdown = (data) => {
   
   [Back to Contents](#table-of-contents)`;
 };
+
 module.exports = generateMarkdown;
