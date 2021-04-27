@@ -1,6 +1,5 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-const { resolve } = require("path");
 const generateMarkdown = require("./utils/generateMarkdown.js");
 
 // questions
@@ -63,28 +62,40 @@ const promptQuestions = [
   },
 
   {
+    type: "confirm",
+    name: "confirmInstall",
+    message: "Do you wish to provide any installation instructions?",
+    default: true,
+  },
+
+  {
     type: "input",
     name: "installation",
-    message: "What are the steps required to install your project? (Required)",
-    validate: (installationInput) => {
-      if (installationInput) {
+    message: "What are the steps required to install your project?",
+    when: ({ confirmInstall }) => {
+      if (confirmInstall) {
         return true;
       } else {
-        console.log("Please tell us how to install your project!");
         return false;
       }
     },
   },
 
   {
+    type: "confirm",
+    name: "confirmUsage",
+    message: "Would you like to provide examples of how to use your project?",
+    default: true,
+  },
+
+  {
     type: "input",
     name: "usage",
     message: "Provide instructions and examples for use. (Required)",
-    validate: (usageInput) => {
-      if (usageInput) {
+    when: ({ confirmUsage }) => {
+      if (confirmUsage) {
         return true;
       } else {
-        console.log("Please provide instructions for use!");
         return false;
       }
     },

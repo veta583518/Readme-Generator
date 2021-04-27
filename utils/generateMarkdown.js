@@ -1,5 +1,14 @@
-// switch to determine which badge icon and link to display at top of document based on user selection in prompt
+// const {
+//   generateInstallInfo,
+//   generateUsageInfo,
+//   generateCreditInfo,
+//   generateLicenseInfo,
+//   generateContributeInfo,
+//   generateTestInfo,
+//   generateAboutInfo,
+// } = require("./generateConditional");
 
+// switch to determine which badge icon and link to display at top of document based on user selection in prompt
 const generateBadge = (license) => {
   let badge = "";
 
@@ -63,76 +72,148 @@ const generateBadge = (license) => {
   }
   return badge;
 };
+generateTableOfContents = (answers) => {
+  let link = "";
+  let installtionLink = `- [Installation](#installatoion)`;
+  let usageLink = `- [Usage](#usage)`;
+  let creditLink = `- [Credits](#credits)`;
+  let licenseLink = `- [License](#license)`;
+  let contributingLink = `- [Contributing](#contributing)`;
+  let testingLink = `- [Testing](#testing)`;
+  let aboutLink = `- [Questions](#questions)`;
 
-// Create a function to generate markdown for README
-const generateMarkdown = (data) => {
-  return `# ${data.title} ${generateBadge(license)}
+  if (answers.confirmInstall) {
+    link = link + installtionLink;
+  }
+  if (answers.confirmUsage) {
+    link = link + usageLink;
+  }
+  if (answers.confirmCredit) {
+    link = link + creditLink;
+  }
+  if (answers.license !== "none") {
+    link = link + licenseLink;
+  }
+  if (answers.confirmContribute) {
+    link = link + contributingLink;
+  }
+  if (answers.confirmTest) {
+    link = link + testingLink;
+  }
+  if (answers.github) {
+    link = link + aboutLink;
+  }
+  return link;
+};
 
-  ## Description
-  ${data.description}.
-    
-  ### Table of Contents
+const generateInstallInfo = (installation) => {
+  if (!confirmInstall) {
+    return "";
+  }
+  return `---
+    ## Installation 
 
-  -[Installation](#installation)
-  -[Usage](#usage)
-  -[Credits](#credits)
-  -[License](#license)
-  -[Contributing](#contributing)
-  -[Tests](#tests)
-  -[About](#about)
-
-
-  ## Installation 
-
-  ${data.installation}
-
-  [Back to Contents](#table-of-contents)
-
-
-  ## Usage
-
-  ${data.usage}.
-
-  [Back to Contents](table-of-contents)
-
-    
-  ## Credits
+    * ${installation}
   
-  The following made conibution to this project. 
+    [Back to Contents](#table-of-contents)`;
+};
+const generateUsageInfo = (usage) => {
+  if (!confirmUsage) {
+    return "";
+  } else {
+    return `---
+    ## Usage
 
-  ${data.credit}
-    
-  [Back to Contents](#table-of-contents)
-
-
-  ## License
-
-  This project is covered under the ${data.license}.
-
-  [Back to Contents](#table-of-contents)
-
-
-  ## Contribution
-
-  ${data.contribute}
-
-  [Back to Contents](#table-of-contents)
-
-
-  ## Tests
+    * ${usage}.
   
-  ${data.tests}
+    [Back to Contents](table-of-contents)`;
+  }
+};
+const generateCreditInfo = (credit) => {
+  if (!confirmCredit) {
+    return "";
+  } else {
+    return `--- 
+    ## Credits
+  
+    * The following made conibution to this project. 
+  
+    ${credit}
+      
+    [Back to Contents](#table-of-contents)`;
+  }
+};
+const generateLicenseInfo = (license) => {
+  if (!license) {
+    return "";
+  } else {
+    return `---
+    ## License
 
-  [Back to Contents](#table-of-contents)
+    * This project is covered under the ${license}.
+  
+    [Back to Contents](#table-of-contents)`;
+  }
+};
+const generateContributeInfo = (contribute) => {
+  if (!confirmContribute) {
+    return "";
+  } else {
+    return `--- 
+    ## Contribution
 
+    ${contribute}
+  
+    [Back to Contents](#table-of-contents)
+  `;
+  }
+};
+const generateTestInfo = (tests) => {
+  if (!confirmTest) {
+    return "";
+  } else {
+    return `---
+    ## Tests
+  
+    ${tests}
+  
+    [Back to Contents](#table-of-contents)`;
+  }
+};
 
-  ## Contact
+const generateAboutInfo = (github, email) => {
+  return `---
+  ## About
 
-  If you any questions about this project, my contact information is listed below. 
-  GitHub:[${data.github}](https://github.com/${data.github})
-  Email: [${data.email}](mailto:${data.email})
+  * If you any questions about this project, my contact information is listed below. 
+  GitHub:[${github}](https://github.com/${github})
+  Email: [${email}](mailto:${email})
   
   [Back to Contents](#table-of-contents)`;
+};
+
+// Create a function to generate markdown for README
+const generateMarkdown = (answers) => {
+  return `# ${answers.title} 
+
+  ## Description
+
+  ${answers.description}.
+  
+  ${generateBadge(answers.license)}
+
+  ---
+
+  ## Table of Contents
+
+  * ${generateTableOfContents}
+  ${generateInstallInfo}
+  ${generateUsageInfo}
+  ${generateCreditInfo}
+  ${generateLicenseInfo}
+  ${generateContributeInfo}
+  ${generateTestInfo}
+  ${generateAboutInfo}`;
 };
 
 module.exports = generateMarkdown;
