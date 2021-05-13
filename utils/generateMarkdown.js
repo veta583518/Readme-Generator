@@ -1,13 +1,3 @@
-// const {
-//   generateInstallInfo,
-//   generateUsageInfo,
-//   generateCreditInfo,
-//   generateLicenseInfo,
-//   generateContributeInfo,
-//   generateTestInfo,
-//   generateAboutInfo,
-// } = require("./generateConditional");
-
 // switch to determine which badge icon and link to display at top of document based on user selection in prompt
 const generateBadge = (license) => {
   let badge = "";
@@ -72,124 +62,91 @@ const generateBadge = (license) => {
   }
   return badge;
 };
-generateTableOfContents = (answers) => {
-  let link = "";
-  let installtionLink = `- [Installation](#installatoion)`;
-  let usageLink = `- [Usage](#usage)`;
-  let creditLink = `- [Credits](#credits)`;
-  let licenseLink = `- [License](#license)`;
-  let contributingLink = `- [Contributing](#contributing)`;
-  let testingLink = `- [Testing](#testing)`;
-  let aboutLink = `- [Questions](#questions)`;
+// const generateTableOfContents = (answers) => {
+//   if (confirmInstall) {
+//     return `- [Installation](#installation)`;
+//   }
+//   if (confirmUsage) {
+//     return `-[Usage](#usage)`;
+//   }
+//   if (license !== "None") {
+//     return `- [License](#license)`;
+//   }
+//   if (confirmContribute) {
+//     return `- [Contributing](#contributing)`;
+//   }
+//   if (confirmTest) {
+//     return `- [Tests](#tests)`;
+//   }
+//   if (questions) {
+//     return `- [Questions](#questions)`;
+//   }
+// };
 
-  if (answers.confirmInstall) {
-    link = link + installtionLink;
+const generateInstallInfo = (installationInstructions) => {
+  if (!installationInstructions) {
+    return "[Back to Contents](#table-of-contents)";
   }
-  if (answers.confirmUsage) {
-    link = link + usageLink;
-  }
-  if (answers.confirmCredit) {
-    link = link + creditLink;
-  }
-  if (answers.license !== "none") {
-    link = link + licenseLink;
-  }
-  if (answers.confirmContribute) {
-    link = link + contributingLink;
-  }
-  if (answers.confirmTest) {
-    link = link + testingLink;
-  }
-  if (answers.github) {
-    link = link + aboutLink;
-  }
-  return link;
+  return `
+
+      * ${installationInstructions}
+    
+      [Back to Contents](#table-of-contents)`;
 };
-
-const generateInstallInfo = (installation) => {
-  if (!confirmInstall) {
-    return "";
-  }
-  return `---
-    ## Installation 
-
-    * ${installation}
-  
-    [Back to Contents](#table-of-contents)`;
-};
-const generateUsageInfo = (usage) => {
-  if (!confirmUsage) {
-    return "";
+const generateUsageInfo = (usageInformation) => {
+  if (!usageInformation) {
+    return "[Back to Contents](#table-of-contents)";
   } else {
-    return `---
-    ## Usage
+    return `
 
-    * ${usage}.
-  
-    [Back to Contents](table-of-contents)`;
-  }
-};
-const generateCreditInfo = (credit) => {
-  if (!confirmCredit) {
-    return "";
-  } else {
-    return `--- 
-    ## Credits
-  
-    * The following made conibution to this project. 
-  
-    ${credit}
-      
-    [Back to Contents](#table-of-contents)`;
+      * ${usageInformation}.
+    
+      [Back to Contents](table-of-contents)`;
   }
 };
 const generateLicenseInfo = (license) => {
-  if (!license) {
-    return "";
+  if (license === "None") {
+    return "[Back to Contents](#table-of-contents)";
   } else {
-    return `---
-    ## License
+    return `  
 
-    * This project is covered under the ${license}.
-  
+      * This project is covered under the ${license}.
+    
+      [Back to Contents](#table-of-contents)`;
+  }
+};
+const generateContributeInfo = (contributionGuidelines) => {
+  if (!contributionGuidelines) {
+    return "[Back to Contents](#table-of-contents)";
+  } else {
+    return ` 
+
+       ${contributionGuidelines}
+    
+      [Back to Contents](#table-of-contents)
+    `;
+  }
+};
+const generateTestInfo = (testInstructions) => {
+  if (!testInstructions) {
+    return "[Back to Contents](#table-of-contents)";
+  } else {
+    return `
+
+    ${testInstructions}
+
+    "[Back to Contents](#table-of-contents)`;
+  }
+};
+
+const generateQuestionsInfo = (github, email) => {
+  return `
+    
+    If you any questions about this project, my contact information is listed below.
+    - GitHub: [${github}](https://github.com/${github})
+    - Email: [${email}](mailto:${email})
+
     [Back to Contents](#table-of-contents)`;
-  }
-};
-const generateContributeInfo = (contribute) => {
-  if (!confirmContribute) {
-    return "";
-  } else {
-    return `--- 
-    ## Contribution
-
-    ${contribute}
-  
-    [Back to Contents](#table-of-contents)
-  `;
-  }
-};
-const generateTestInfo = (tests) => {
-  if (!confirmTest) {
-    return "";
-  } else {
-    return `---
-    ## Tests
-  
-    ${tests}
-  
-    [Back to Contents](#table-of-contents)`;
-  }
-};
-
-const generateAboutInfo = (github, email) => {
-  return `---
-  ## About
-
-  * If you any questions about this project, my contact information is listed below. 
-  GitHub:[${github}](https://github.com/${github})
-  Email: [${email}](mailto:${email})
-  
-  [Back to Contents](#table-of-contents)`;
 };
 
 // Create a function to generate markdown for README
@@ -198,22 +155,42 @@ const generateMarkdown = (answers) => {
 
   ## Description
 
-  ${answers.description}.
+  - ${answers.description}.
   
   ${generateBadge(answers.license)}
 
   ---
-
   ## Table of Contents
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [License](#license)
+  - [Contributing](#contributing)
+  - [Test](#test)
+  - [Questions](#questions)
 
-  * ${generateTableOfContents}
-  ${generateInstallInfo}
-  ${generateUsageInfo}
-  ${generateCreditInfo}
-  ${generateLicenseInfo}
-  ${generateContributeInfo}
-  ${generateTestInfo}
-  ${generateAboutInfo}`;
+  ---
+  ## Installation
+  ${generateInstallInfo(answers.installation)}
+
+  --- 
+  ## Usage
+  ${generateUsageInfo(answers.usage)}
+
+  --- 
+  ## License
+  ${generateLicenseInfo(answers)}
+
+  ---
+  ## Contributing
+  ${generateContributeInfo(answers.contribute)}
+
+  ---
+  ## Tests
+  ${generateTestInfo(answers.test)}
+
+  ---
+  ## Questions
+  ${generateQuestionsInfo(answers)}`;
 };
 
 module.exports = generateMarkdown;

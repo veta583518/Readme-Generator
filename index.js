@@ -23,11 +23,12 @@ const promptQuestions = [
     type: "input",
     name: "email",
     message: "What is your email address? (Required)",
-    validate: (emailInput) => {
-      if (emailInput) {
+    validate: function (email) {
+      valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+      if (valid) {
         return true;
       } else {
-        console.log("Please enter your Email Address!");
+        console.log("Please enter a valid email address!");
         return false;
       }
     },
@@ -102,26 +103,6 @@ const promptQuestions = [
   },
 
   {
-    type: "confirm",
-    name: "confirmCredit",
-    message: 'Do you wish to list any contributors in the "Credits" section?',
-    default: true,
-  },
-
-  {
-    type: "input",
-    name: "credit",
-    message: 'List the GitHub usernames of all contributors, seperating by ","',
-    when: ({ confirmCredit }) => {
-      if (confirmCredit) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-  },
-
-  {
     type: "list",
     name: "license",
     message: "Choose a license:",
@@ -188,9 +169,11 @@ const promptQuestions = [
 // write readme file
 const writeToFile = (fileName, data) => {
   return new Promise((resolve, reject) => {
+    console.log("Generating README...");
     fs.writeFile(fileName, generateMarkdown(data), (err) => {
       // if there is an error, reject the Promise and send the error to the Promise's `.catch()` method
       if (err) {
+        console.log(err);
         reject(err);
         // return out of the function here to make sure the Promise doesn't accidentally execute the resolve() function as well
         return;
@@ -208,4 +191,5 @@ const init = () => {
   return inquirer.prompt(promptQuestions);
 };
 // initialize program
-init().then((answers) => writeToFile("./README-GEN.md", answers));
+init().then((answers) => writeToFile("./output/README-GEN.md", answers));
+// init().then((answers) => console.log(answers));
