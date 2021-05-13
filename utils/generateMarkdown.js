@@ -85,69 +85,47 @@ const generateBadge = (license) => {
 
 const generateInstallInfo = (installationInstructions) => {
   if (!installationInstructions) {
-    return "[Back to Contents](#table-of-contents)";
+    return "";
   }
-  return `
-
-      * ${installationInstructions}
-    
-      [Back to Contents](#table-of-contents)`;
+  return `${installationInstructions}`;
 };
 const generateUsageInfo = (usageInformation) => {
   if (!usageInformation) {
-    return "[Back to Contents](#table-of-contents)";
+    return "";
   } else {
-    return `
-
-      * ${usageInformation}.
-    
-      [Back to Contents](table-of-contents)`;
+    return `${usageInformation}`;
   }
 };
 const generateLicenseInfo = (license) => {
   if (license === "None") {
-    return "[Back to Contents](#table-of-contents)";
+    return "";
   } else {
-    return `  
-
-      * This project is covered under the ${license}.
-    
-      [Back to Contents](#table-of-contents)`;
+    return ` This project is covered under the ${license}`;
   }
 };
 const generateContributeInfo = (contributionGuidelines) => {
   if (!contributionGuidelines) {
-    return "[Back to Contents](#table-of-contents)";
+    return "";
   } else {
-    return ` 
-
-       ${contributionGuidelines}
-    
-      [Back to Contents](#table-of-contents)
-    `;
+    return `${contributionGuidelines}`;
   }
 };
 const generateTestInfo = (testInstructions) => {
   if (!testInstructions) {
-    return "[Back to Contents](#table-of-contents)";
+    return "";
   } else {
-    return `
-
-    ${testInstructions}
-
-    "[Back to Contents](#table-of-contents)`;
+    return `${testInstructions}`;
   }
 };
 
-const generateQuestionsInfo = (github, email) => {
-  return `
-    
-    If you any questions about this project, my contact information is listed below.
-    - GitHub: [${github}](https://github.com/${github})
-    - Email: [${email}](mailto:${email})
+// const generateQuestionsInfo = (github, email) => {
+//   return
+//   `If you any questions about this project, my contact information is listed below.
+//     - GitHub: [${github}](https://github.com/${github})
+//     - Email: [${email}](mailto:${email})` +
 
-    [Back to Contents](#table-of-contents)`;
-};
+//     "[Back to Contents](#table-of-contents)"
+// };
 
 // Create a function to generate markdown for README
 const generateMarkdown = (answers) => {
@@ -155,7 +133,7 @@ const generateMarkdown = (answers) => {
 
   ## Description
 
-  - ${answers.description}.
+  ${answers.description}.
   
   ${generateBadge(answers.license)}
 
@@ -170,27 +148,48 @@ const generateMarkdown = (answers) => {
 
   ---
   ## Installation
-  ${generateInstallInfo(answers.installation)}
 
+  ${generateInstallInfo(answers.installation)}
+   
+  [Back to Contents](#table-of-contents)
+  
   --- 
   ## Usage
+
   ${generateUsageInfo(answers.usage)}
+
+  [Back to Contents](#table-of-contents)
 
   --- 
   ## License
-  ${generateLicenseInfo(answers)}
+
+  ${generateLicenseInfo(answers.license)}
+
+  [Back to Contents](#table-of-contents)
 
   ---
   ## Contributing
+
   ${generateContributeInfo(answers.contribute)}
+
+  [Back to Contents](#table-of-contents)
 
   ---
   ## Tests
+
   ${generateTestInfo(answers.test)}
+
+  [Back to Contents](#table-of-contents)
 
   ---
   ## Questions
-  ${generateQuestionsInfo(answers)}`;
+
+  If you any questions about this project, my contact information is listed below.
+
+  - GitHub: [${answers.github}](https://github.com/${answers.github})
+  - Email: [${answers.email}](mailto:${answers.email})
+
+  [Back to Contents](#table-of-contents)`;
 };
 
 module.exports = generateMarkdown;
