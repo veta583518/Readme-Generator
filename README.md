@@ -6,7 +6,7 @@ Readme Generator is a CLI that works with node.js to generate a professional rea
 
 ## Table of Contents
 
-- [Walk Throuugh](#walkthrough)
+- [Walk Through](#walkthrough)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -16,7 +16,7 @@ Readme Generator is a CLI that works with node.js to generate a professional rea
 ## Walk Through
 
 To view a walk through [Click Here](https://drive.google.com/file/d/1TBdzj2Fosbu1ipeHMeKj34IRv2XZYBJw/view)
-![Screenshot](lib\assets\Screenshot.PNG)
+![Screenshot](https://github.com/veta583518/Readme-Generator/blob/main/lib/assets/Screenshot.PNG)
 
 ## Installation
 
