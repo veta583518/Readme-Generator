@@ -1,10 +1,10 @@
-# Testing 
+# React Portfolio 
 
   ## Description
 
-  - Testing.
+  Portfolio generated using react.js.
   
-  [![License: BSD 2 ](https://img.shields.io/badge/License-BSD%202-yellow)](https://opensource.org/licenses/BSD-2-Clause)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellowgreen)](https://opensource.org/licenses/MIT)
 
   ---
   ## Table of Contents
@@ -18,21 +18,21 @@
   ---
   ## Installation
 
-  Testing
+  You would not need to install this application as it is deployed. Just click the link to the website
    
   [Back to Contents](#table-of-contents)
   
   --- 
   ## Usage
 
-  Testing
+  This application would be used to show some of my work and to introduce myself to potential employers
 
   [Back to Contents](#table-of-contents)
 
   --- 
   ## License
 
-   This project is covered under the BSD 2-Clause "Simplified" License
+   This project is covered under the MIT License
 
   [Back to Contents](#table-of-contents)
 
@@ -46,7 +46,7 @@
   ---
   ## Tests
 
-  Testing
+  
 
   [Back to Contents](#table-of-contents)
 
